@@ -1,0 +1,35 @@
+﻿@model DDWAssignment.ViewModels.UserRegistrationVM
+@{
+    ViewBag.Title = "Create User";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<h2>Create</h2>
+<div>
+    @using (Html.BeginForm("CreateUser", "User", FormMethod.Post, new { @class = "form-group", role = "form" }))
+    {
+        <fieldset>
+            <div class="form-group">
+                <div>
+                    @Html.LabelFor(u => u.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.ValidationMessageFor(u => u.Username)
+                    @Html.EditorFor(u => u.Username, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div>
+                    @Html.LabelFor(u => u.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.ValidationMessageFor(u => u.EmailAddress)
+                    @Html.EditorFor(u => u.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div>
+                    @Html.LabelFor(u => u.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.ValidationMessageFor(u => u.Password)
+                    @Html.PasswordFor(u => u.Password,  htmlAttributes: new { @class = "form-control" })
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+</fieldset>}
+    @{Html.EndForm();}
+</div>

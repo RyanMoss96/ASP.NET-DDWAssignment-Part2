@@ -28,7 +28,7 @@ namespace DDWAssignment.ViewModels //where projectName is YOUR project name
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Please Enter a Password")]
-        [StringLength(7, ErrorMessage = "Please choose a password with a mimimum length of 10 characters", MinimumLength = 5)]
+        [StringLength(10, ErrorMessage = "Please choose a password with a mimimum length of 5 characters", MinimumLength = 5)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 

@@ -67,6 +67,9 @@ namespace DDWAssignment.Controllers
         [HttpPost]
         public ActionResult CreateUser(UserRegistrationVM model)
         {
+
+            var password  = model.Password;
+            password = Helpers.SHA1.Encode(password);
             if (ModelState.IsValid)
             {
                 var db = new UserEntities();
@@ -74,7 +77,7 @@ namespace DDWAssignment.Controllers
                 {
                     Username = model.Username,
                     EmailAddress = model.EmailAddress,
-                    Password = model.Password
+                    Password = password
                 });
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");

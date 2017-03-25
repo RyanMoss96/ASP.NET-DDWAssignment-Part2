@@ -29,7 +29,10 @@ namespace DDWAssignment.Controllers
             {
                 var db = new UserEntities();
 
-                var v = db.Users.Where(u => u.Username.Equals(model.Username) && u.Password.Equals(model.Password)).FirstOrDefault();
+                var password = model.Password;
+                password = Helpers.SHA1.Encode(password);
+
+                var v = db.Users.Where(u => u.Username.Equals(model.Username) && u.Password.Equals(password)).FirstOrDefault();
 
                 if (v != null)
                 {
@@ -37,8 +40,9 @@ namespace DDWAssignment.Controllers
                     Session["loggedIn"] = true;
                     Session["user"] = v.Username;
                     Session["uid"] = v.Id;
+                    Session["admin"] = v.Admin;
                     
-                    return RedirectToAction("UserArea", "Home");
+                    return RedirectToAction("Index", "Home");
 
                 }
                 else
@@ -121,20 +125,42 @@ namespace DDWAssignment.Controllers
             int? id = (int)Session["uid"];
             var db = new UserEntities(); //where Entities matches the name of YOUR entities
             var userToUpdate = db.Users.Find(id);
-            
+
+            var password = model.Password;
+            password = Helpers.SHA1.Encode(password);
+
             if (ModelState.IsValid)
             {
                 if (userToUpdate != null)
                 {
                     userToUpdate.Id = id ?? default(int);
                     userToUpdate.Username = model.Username;
-                    userToUpdate.Password = model.Password;
+                    userToUpdate.Password = password;
                     userToUpdate.EmailAddress = model.EmailAddress;
                     db.SaveChanges();
                 }
             }
             ViewData["Message"] = "Record updated";
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Cars()
+        {
+            if (Session["loggedIn"] != null)
+            {
+                var db = new UserEntities();
+                var user = (int)Session["uid"];
+
+                //Cheating here... Will "fix" later
+
+                return View(db.Bookings.Where(b => b.UserID.Equals(user)).ToList());
+            }
+            else
+            {
+                return Redirect("../User/VMLogin"); //making sure you substitute “Login” for whatever your login method is actually called if different
+            }
+
         }
     }
 }

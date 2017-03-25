@@ -18,9 +18,64 @@ namespace DDWAssignment.Controllers
             return View(entities.Cars.ToList());
         }
 
-        public ActionResult Rent(int id)
+        [HttpGet]
+        public ActionResult Rent(int? id)
         {
-            return View(id);
+            if(Session["user"] == null)
+            {
+                return RedirectToAction("VMLogin", "User");
+            } else
+            {
+                if (id == null)
+                {
+                    return RedirectToAction("Index", "Car");
+                }
+                else
+                {
+                    var db = new UserEntities();
+                    Car car = db.Cars.Find(id);
+                    //Cheating here... Will "fix" later
+                    Session["car"] = id;
+                    return View(car);
+                }
+            }
+            
+            
+        }
+
+        [HttpPost]
+        public ActionResult Rent(Car model)
+        {
+            var db = new UserEntities();
+            //Cheating here... Will "fix" later
+            Car car = db.Cars.Find(Session["car"]);
+            var id = (int)Session["uid"];
+
+
+            db.Bookings.Add(new Booking
+            {
+               CarID = car.Id,
+               UserID = id
+            });
+            db.SaveChanges();
+            return RedirectToAction("Booked", "Car");
+        }
+
+        public ActionResult Booked()
+        {
+            if (Session["uid"] == null)
+            {
+                return RedirectToAction("Index", "Car");
+            }
+            else
+            {
+                var db = new UserEntities();
+                Car car = db.Cars.Find((int)Session["car"]);
+                //Cheating here... Will "fix" later
+                Session["car"] = null;
+                return View(car);
+            }
+           
         }
     }
 }

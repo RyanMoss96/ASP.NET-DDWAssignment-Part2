@@ -42,7 +42,7 @@
                                 @Html.Encode(item.Cost)
                             </td>
                             <td>
-                                @Html.ActionLink("Rent", "Rent", new { id = item.Id })
+                                @Html.ActionLink("Rent", "Rent", new { controller = "Car", id = item.Id })
                             </td>
                         </tr>
                     }

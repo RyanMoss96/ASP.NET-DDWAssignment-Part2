@@ -12,8 +12,11 @@ namespace DDWAssignment.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Table
+    public partial class Booking
     {
         public int Id { get; set; }
+        public int CarID { get; set; }
+        public int UserID { get; set; }
+        public int Cost { get; set; }
     }
 }

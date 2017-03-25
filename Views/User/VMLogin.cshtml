@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>wLogin</h2>
+
 @Html.Encode(ViewData["Message"])
 <div class="container">
-
+    <h2>Login</h2>
     @using (Html.BeginForm("VMLogin", "User", FormMethod.Post, new { @class = "form-group", role = "form" })) //Notice the name of the controller method as part of BeginForm, this needs to be correct!
             {
 

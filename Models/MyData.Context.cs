@@ -26,7 +26,7 @@ namespace DDWAssignment.Models
         }
     
         public virtual DbSet<Car> Cars { get; set; }
-        public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
     }
 }
